@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="56" height="13" tilewidth="18" tileheight="18">
+ <tileset firstgid="1" name="scifi-interior" tilewidth="18" tileheight="18">
+  <image source="scifitiles-sheet.png" width="252" height="108"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="56" height="13">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC9NnYGDQH8ZYdBQPacwJxFzDmC8OxBLDmM8+zPFA5w9aY+Vhjgc6/4+WL5TxR/HQxgPdPqQ1BgAKFgm2YAsAAA==
+  </data>
+ </layer>
+</map>
