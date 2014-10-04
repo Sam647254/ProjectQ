@@ -12,12 +12,13 @@ public class Enemy : Obstacle {
 
 	// Update is called once per frame
 	void Update () {
-		if (getCollided() == false)
-			transform.position = Vector3.MoveTowards (transform.position, playerTransform.position, 0.5F);
+		transform.position = Vector3.MoveTowards (transform.position, playerTransform.position, 0.5F);
+
+//		if (getCollided() == true)
+//			Destroy(gameObject);
 	}
 
-	void OnCollisiionEnter2D(Collision2D collision) {
-		setCollided (true);
-		Destroy (gameObject);
+	void OnCollisionEnter2D(Collision2D collision) {
+		Destroy(gameObject);
 	}
 }
