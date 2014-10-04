@@ -12,6 +12,8 @@ public class ScrollBackground : MonoBehaviour
 	void Start () {
 		cameraTransform = Camera.main.transform;
 		spriteWidth = GetComponent<SpriteRenderer> ().sprite.bounds.size.x;
+
+		Debug.Log ("spriteWidth: " + spriteWidth);
 	}
 	
 	// Update is called once per frame
