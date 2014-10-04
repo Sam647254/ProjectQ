@@ -3,8 +3,6 @@ using System.Collections;
 
 public class DebugGUI : MonoBehaviour {
 
-	private float speed = ScrollBackground.speed;
-
 	void Start() {
 	}
 
@@ -13,6 +11,5 @@ public class DebugGUI : MonoBehaviour {
 		Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		GUI.Label (new Rect (10, 10, 500, 20),
 		           "mouse world pos: (" + mousePos.x + ", " + mousePos.y + ")");
-		GUI.Label (new Rect (30, 30, 500, 20), "Background scrolling speed: " + speed);
 	}
 }
