@@ -3,22 +3,34 @@ using System.Collections;
 
 public class Enemy : Obstacle {
 
-	public Transform playerTransform;
+	public float speedPenalty;
+	public float speedBonusOnKill;
+	public float movementSpeed;
+	Transform playerTransform;
 
 	void Start() {
 		setSpeed (ScrollBackground.speed);
-		playerTransform = GameObject.Find ("player").transform;
+		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		transform.position = Vector3.MoveTowards (transform.position, playerTransform.position, 0.5F);
+		//Debug.Log("
+
+		transform.position = Vector3.MoveTowards (transform.position, playerTransform.position, movementSpeed);
 
 //		if (getCollided() == true)
 //			Destroy(gameObject);
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
-		Destroy(gameObject);
+		if (collision.gameObject.CompareTag("Player")) {
+			Globals.modifySpeed(-speedPenalty);
+			Destroy(gameObject);
+		}
+		else if (collision.gameObject.CompareTag("PlayerAttack")) {
+			Globals.modifySpeed(speedBonusOnKill);
+			Destroy(gameObject);
+		}
 	}
 }
