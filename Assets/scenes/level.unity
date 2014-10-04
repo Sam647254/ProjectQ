@@ -260,7 +260,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -100
   m_Sprite: {fileID: 21300000, guid: 664b12de85bfa8f4db9c605d371af346, type: 3}
   m_Color: {r: .91911763, g: .459558815, b: .459558815, a: 1}
 --- !u!4 &413588285
@@ -418,7 +418,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -100
   m_Sprite: {fileID: 21300000, guid: 664b12de85bfa8f4db9c605d371af346, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1226314956
@@ -552,6 +552,10 @@ Prefab:
       propertyPath: spriteScale
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: 9ca7b9f0e1f92e2418475e4fc75ea582, type: 2}
+      propertyPath: m_SortingOrder
+      value: -100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9ca7b9f0e1f92e2418475e4fc75ea582, type: 2}
   m_RootGameObject: {fileID: 413588282}
@@ -603,6 +607,10 @@ Prefab:
     - target: {fileID: 11400000, guid: 9ca7b9f0e1f92e2418475e4fc75ea582, type: 2}
       propertyPath: spriteScale
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: 9ca7b9f0e1f92e2418475e4fc75ea582, type: 2}
+      propertyPath: m_SortingOrder
+      value: -100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9ca7b9f0e1f92e2418475e4fc75ea582, type: 2}
