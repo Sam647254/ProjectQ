@@ -12,4 +12,15 @@ public class DebugGUI : MonoBehaviour {
 		GUI.Label (new Rect (10, 10, 500, 20),
 		           "mouse world pos: (" + mousePos.x + ", " + mousePos.y + ")");
 	}
+
+	void Update() {
+		if (Input.GetKeyUp("up"))
+		{
+			ScrollBackground.speed *= 2f;
+		}
+		if (Input.GetKeyUp("down"))
+		{
+			ScrollBackground.speed *= 0.5f;
+		}
+	}
 }

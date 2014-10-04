@@ -24,14 +24,5 @@ public class ScrollBackground : MonoBehaviour
 			                                 transform.position.y);
 		}
 
-		/*if (Input.GetKeyUp("up"))
-		{
-			scrollSpeed *= 2f;
-		}
-		if (Input.GetKeyUp("down"))
-		{
-			scrollSpeed *= 0.5f;
-
-		}*/
 	}
 }
