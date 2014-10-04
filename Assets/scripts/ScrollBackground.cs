@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent (typeof(SpriteRenderer))]
 public class ScrollBackground : MonoBehaviour
 {
-	public float speed = 1.0f;
+	public static float speed = 0.5F;
 	Transform cameraTransform;
 	float spriteWidth;
 
