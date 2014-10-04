@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : Obstacle {
+public class Enemy : MonoBehaviour {
 
 	public float speedPenalty;
 	public float speedBonusOnKill;
 	public float movementSpeed;
+
+	//Velocity movement
+	//public int updatesPerMovementUpdate;
 
 	public enum EnemyType {
 		ENEMY_NULL,
@@ -15,12 +18,19 @@ public class Enemy : Obstacle {
 		ENEMY_GREEN
 	};
 	public EnemyType type { get; private set; }
+	public bool isHit { get; set; }
+
 	Transform playerTransform;
-	public bool isHit { get; private set; }
-	
+
+	//Velocity movement
+	//int movementUpdateTimer;
+
 	void Start() {
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-		
+
+		//Velocity movement
+		//movementUpdateTimer = updatesPerMovementUpdate;
+
 		switch (Random.Range (0, (int)Mathf.Floor(Globals.gameSpeed))) {
 		case 0: SetType(EnemyType.ENEMY_WHITE); break;
 		case 1: SetType(EnemyType.ENEMY_BLUE); break;
@@ -33,8 +43,20 @@ public class Enemy : Obstacle {
 	void Update () {
 		// don't try to move towards the player if it doesn't exist for whatever reason
 		Vector3 targetPos = playerTransform ? playerTransform.position : new Vector3 (-100F, 0F, 0F);
-		if(!isHit)
+
+					//Velocity movement
+		if (!isHit /*&& movementUpdateTimer-- <= 0*/) {
 			transform.position = Vector3.MoveTowards (transform.position, targetPos, movementSpeed);
+
+			//Velocity movement
+			//movementUpdateTimer = updatesPerMovementUpdate;
+
+			// Velocity movement
+			/*rigidbody2D.velocity = (Vector2.MoveTowards((Vector2) transform.position,
+			                                            (Vector2) targetPos,
+			                                            movementSpeed) - 
+									(Vector2) transform.position).normalized * movementSpeed;*/
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
@@ -47,6 +69,12 @@ public class Enemy : Obstacle {
 		}
 		else if (collision.gameObject.CompareTag("Enemy")) {
 			Enemy enemyCollision = collision.gameObject.GetComponent<Enemy>();
+
+			// don't let unhit rockets of different types initiate a pile-up
+			if (isHit) {
+				enemyCollision.isHit = true;
+			}
+
 			if(enemyCollision.type == type && (isHit || enemyCollision.isHit)) {
 				Destroy (collision.gameObject);
 				Destroy (gameObject);
@@ -57,9 +85,9 @@ public class Enemy : Obstacle {
 
 	void SetType(EnemyType newType) {
 		type = newType;
-		
+
 		SpriteRenderer spriteRenderer = renderer as SpriteRenderer;
-		
+
 		switch (type) {
 		case EnemyType.ENEMY_WHITE:
 			spriteRenderer.color = Color.white;

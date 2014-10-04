@@ -19,7 +19,10 @@ public class Projectile : MonoBehaviour {
 	}
 
 	public void OnCollisionEnter2D(Collision2D collision) {
-		if (collision.gameObject.CompareTag("Enemy"))
+		if (collision.gameObject.CompareTag("Enemy")) {
+			Enemy colEnemy = collision.gameObject.GetComponent<Enemy>();
+			colEnemy.isHit = true;
 		    Destroy (gameObject);
+		}
 	}
 }

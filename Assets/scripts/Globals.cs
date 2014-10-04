@@ -13,4 +13,11 @@ public class Globals : MonoBehaviour {
 			gameSpeed = minSpeed;
 	}
 
+	public static float camHeight() {
+		return 2f * Camera.main.orthographicSize;
+	}
+
+	public static float camWidth() {
+		return 2f * Camera.main.orthographicSize * Camera.main.aspect;
+	}
 }
