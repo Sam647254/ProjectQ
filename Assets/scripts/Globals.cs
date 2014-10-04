@@ -8,8 +8,9 @@ public class Globals : MonoBehaviour {
 	static float minSpeed = 0.5f;
 
 	public static void modifySpeed(float offset) {
-		if (gameSpeed >= minSpeed)
-			gameSpeed += offset;
+		gameSpeed += offset;
+		if (gameSpeed < minSpeed)
+			gameSpeed = minSpeed;
 	}
 
 }

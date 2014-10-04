@@ -17,4 +17,9 @@ public class Projectile : MonoBehaviour {
 	public void setDir(Vector2 dir) {
 		rigidbody2D.velocity = speed * dir;
 	}
+
+	public void OnCollisionEnter2D(Collision2D collision) {
+		if (collision.gameObject.CompareTag("Enemy"))
+		    Destroy (gameObject);
+	}
 }
