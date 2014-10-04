@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Scoring : MonoBehaviour {
 
-	public float distanceMoved = 0f;
+	public static float distance = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -12,6 +12,6 @@ public class Scoring : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		distanceMoved += ScrollBackground.speed * Globals.gamespeed * Time.deltaTime;
+		distance += ScrollBackground.speed * Globals.gamespeed * Time.deltaTime;
 	}
 }
