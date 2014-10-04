@@ -18,7 +18,7 @@ public class Obstacle : MonoBehaviour {
 	}
 
 	void OnBecomeInvisible() {
-		Destroy (this);
+		Destroy (gameObject);
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
