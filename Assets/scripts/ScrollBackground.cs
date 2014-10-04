@@ -7,7 +7,7 @@ public class ScrollBackground : MonoBehaviour
 	Transform cameraTransform;
 	float spriteWidth;
 
-	public float scrollSpeed;
+	public static float speed = 10f;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +17,7 @@ public class ScrollBackground : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position -= new Vector3 (scrollSpeed * Globals.gamespeed * Time.deltaTime, 0);
+		transform.position -= new Vector3 (speed * Globals.gamespeed * Time.deltaTime, 0);
 
 		if (transform.position.x + spriteWidth < cameraTransform.position.x) {
 			transform.position = new Vector3(transform.position.x + spriteWidth * 2,
