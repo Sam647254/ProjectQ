@@ -19,10 +19,12 @@ public class PauseMenu : MonoBehaviour {
 			if (GUI.Button(new Rect(column * 5.5F-5F, row * 6F, column+10F, row), "Continue"))
 				GameSystem.paused = false;
 			if (GUI.Button(new Rect(column * 5.5F, row * 7F, column, row), "Restart")) {
+				Globals.gameSpeed = 1F;
 				GameSystem.paused = false;
 				Application.LoadLevel(1);
 			}
 			if (GUI.Button(new Rect(column * 5.5F, row * 8F, column, row), "Quit")) {
+				Globals.gameSpeed = 1F;
 				Application.LoadLevel(0);
 				GameSystem.paused = false;
 			}

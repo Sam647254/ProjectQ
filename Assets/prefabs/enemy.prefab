@@ -73,7 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedPenalty: .150000006
   speedBonusOnKill: .150000006
-  movementSpeed: 5
+  movementSpeed: .100000001
   maxRotation: 1
   smoothTurn: .5
   wrapWait: 3

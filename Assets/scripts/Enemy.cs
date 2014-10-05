@@ -62,10 +62,10 @@ public class Enemy : MonoBehaviour {
 
 			// don't try to move towards the player if it doesn't exist for whatever reason
 			Vector3 targetPos = playerTransform ? targetPlayer() : new Vector3 (-100F, 0F, 0F);
-			//transform.position = Vector3.MoveTowards (transform.position, targetPos, movementSpeed);
-			rigidbody2D.velocity = (Vector3.MoveTowards(transform.position, targetPos, movementSpeed)
+			transform.position = Vector3.MoveTowards (transform.position, targetPos, movementSpeed);
+			/* rigidbody2D.velocity = (Vector3.MoveTowards(transform.position, targetPos, movementSpeed)
 			                        - transform.position).normalized
-								   * movementSpeed;
+								   * movementSpeed; */
 
 			//rotation
 			//get angle between this object and player, and subtract current angle, normalize
