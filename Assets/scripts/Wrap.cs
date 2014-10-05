@@ -26,18 +26,18 @@ public class Wrap : MonoBehaviour {
 
 		if (transform.position.x + spriteWidth/2 < -Globals.camWidth()/2 && delX < 0)  {
 			transform.position += new Vector3(Globals.camWidth()+spriteWidth, 0, 0);
-			Debug.Log ("move to right of screen");
+			//Debug.Log ("move to right of screen");
 		} else if (transform.position.x - spriteWidth/2 > Globals.camWidth()/2 && delX > 0) {
 			transform.position -= new Vector3(Globals.camWidth()+spriteWidth, 0, 0);
-			Debug.Log ("move to left of screen");
+			//Debug.Log ("move to left of screen");
 		}
 		
 		if (transform.position.y + spriteHeight/2 < -Globals.camHeight()/2 && delY < 0)  {
 			transform.position += new Vector3(0, Globals.camHeight() + spriteHeight, 0);
-			Debug.Log ("move to top of screen");
+			//Debug.Log ("move to top of screen");
 		} else if (transform.position.y - spriteHeight/2 > Globals.camHeight()/2 && delY > 0) {
 			transform.position -= new Vector3(0, Globals.camHeight() + spriteHeight, 0);
-			Debug.Log ("move to bottom of screen");
+			//Debug.Log ("move to bottom of screen");
 		}
 	}
 

@@ -4,10 +4,25 @@ using System.Collections;
 public class Projectile : MonoBehaviour {
 
 	public float speed = 1.0f;
-	public float lifeTime = 1.0f;
+	public float lifeTime;
+
+	float lifeTimer;
+	RigidbodyPauser pauser;
 
 	void Start() {
-		Destroy (gameObject, lifeTime);
+		pauser = new RigidbodyPauser (rigidbody2D);
+		lifeTimer = lifeTime;
+	}
+
+	void Update() {
+
+		if (pauser.PauseUpdate ())
+			return;
+
+		lifeTimer -= Time.deltaTime;
+
+		if (lifeTimer <= 0f)
+			Destroy(gameObject);
 	}
 
 	public void setPos(Vector3 pos) {

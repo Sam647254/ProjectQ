@@ -23,11 +23,14 @@ public class Enemy : MonoBehaviour {
 	public bool isHit { get; set; }
 
 	Transform playerTransform;
+	RigidbodyPauser pauser;
 
 	//Velocity movement
 	//int movementUpdateTimer;
 
 	void Start() {
+		pauser = new RigidbodyPauser (rigidbody2D);
+
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
 		//Velocity movement
@@ -43,17 +46,21 @@ public class Enemy : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// don't try to move towards the player if it doesn't exist for whatever reason
-		Vector3 targetPos = playerTransform ? playerTransform.position : new Vector3 (-100F, 0F, 0F);
-		
+
+		if (pauser.PauseUpdate ())
+			return;
+
 					//Velocity movement
 		if (!isHit /*&& movementUpdateTimer-- <= 0*/) {
 
+			// don't try to move towards the player if it doesn't exist for whatever reason
+			Vector3 targetPos = playerTransform ? playerTransform.position : new Vector3 (-100F, 0F, 0F);
 			transform.position = Vector3.MoveTowards (transform.position, targetPos, movementSpeed);
 
 			//rotation
 			//get angle between this object and player, and subtract current angle, normalize
-			float absAngle = Mathf.Atan((targetPos.y-transform.position.y)/(targetPos.x-transform.position.x)) * 180/Mathf.PI;
+			float absAngle = Mathf.Atan((targetPos.y-transform.position.y) /
+			                            (targetPos.x-transform.position.x)) * 180/Mathf.PI;
 			if (targetPos.x > transform.position.x)
 				absAngle += 180;
 			float relAngle = absAngle - transform.eulerAngles.z;
@@ -61,15 +68,15 @@ public class Enemy : MonoBehaviour {
 				relAngle += 360;
 			while (relAngle > 180)
 				relAngle -= 360;
-
+			
 			//smooth out rotation - turn slower when we're almost there
 			relAngle *= smoothTurn * Time.deltaTime;
-
+			
 			//prevent from rotating more than the maxangle each update
 			if (Mathf.Abs (relAngle) > maxRotation * Time.deltaTime) {
 				relAngle = Mathf.Sign (relAngle) * maxRotation;
 			}
-
+			
 			transform.Rotate(new Vector3(0,0, relAngle));
 
 			//Velocity movement

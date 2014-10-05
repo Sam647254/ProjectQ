@@ -18,6 +18,10 @@ public class Spawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (GameSystem.paused)
+			return;
+
 		interval -= Globals.gameSpeed * Time.deltaTime;
 
 		if(interval <= 0F) {
