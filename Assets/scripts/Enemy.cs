@@ -27,8 +27,10 @@ public class Enemy : MonoBehaviour {
 
 	Transform playerTransform;
 	RigidbodyPauser pauser;
+	ParticleSystem particleSystem;
 
 	void Start() {
+		particleSystem = gameObject.GetComponent<ParticleSystem> ();
 		pauser = new RigidbodyPauser (rigidbody2D);
 
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -79,12 +81,10 @@ public class Enemy : MonoBehaviour {
 			transform.Rotate(new Vector3(0,0, relAngle));
 		}
 		else if (Time.time >= whenToRestart) {
-
-			Debug.Log("checking the time");
-
 			rigidbody2D.velocity = Vector2.zero;
 			rigidbody2D.angularVelocity = 0F;
 			isHit = false;
+			particleSystem.enableEmission = true;
 		}
 	}
 
@@ -114,13 +114,12 @@ public class Enemy : MonoBehaviour {
 	}
 
 	public void Hit() {
-
-		Debug.Log ("hit");
-
 		if (!isHit)
 			whenToRestart = Time.time + restartTime;
 
 		isHit = true;
+
+		particleSystem.enableEmission = false;
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
