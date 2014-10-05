@@ -9,10 +9,7 @@ public class Enemy : MonoBehaviour {
 	public float maxRotation; //eg 1
 	public float smoothTurn; //eg 0.5f
 	public float wrapWait; //eg 2.5
-	//public float restartTime;
-
-	//Velocity movement
-	//public int updatesPerMovementUpdate;
+	public float restartTime;
 
 	public enum EnemyType {
 		ENEMY_NULL,
@@ -26,7 +23,7 @@ public class Enemy : MonoBehaviour {
 	
 	float creationTime;
 	bool enteredScreen;
-	//float whenToRestart;
+	float whenToRestart;
 
 	Transform playerTransform;
 	RigidbodyPauser pauser;
@@ -54,7 +51,10 @@ public class Enemy : MonoBehaviour {
 
 			// don't try to move towards the player if it doesn't exist for whatever reason
 			Vector3 targetPos = playerTransform ? targetPlayer() : new Vector3 (-100F, 0F, 0F);
-			transform.position = Vector3.MoveTowards (transform.position, targetPos, movementSpeed);
+			//transform.position = Vector3.MoveTowards (transform.position, targetPos, movementSpeed);
+			rigidbody2D.velocity = (Vector3.MoveTowards(transform.position, targetPos, movementSpeed)
+			                        - transform.position).normalized
+								   * movementSpeed;
 
 			//rotation
 			//get angle between this object and player, and subtract current angle, normalize
@@ -78,14 +78,14 @@ public class Enemy : MonoBehaviour {
 			
 			transform.Rotate(new Vector3(0,0, relAngle));
 		}
-		/*else if (Time.time >= whenToRestart) {
+		else if (Time.time >= whenToRestart) {
 
 			Debug.Log("checking the time");
 
 			rigidbody2D.velocity = Vector2.zero;
 			rigidbody2D.angularVelocity = 0F;
 			isHit = false;
-		}*/
+		}
 	}
 
 	//account for screen wrapping
@@ -115,10 +115,10 @@ public class Enemy : MonoBehaviour {
 
 	public void Hit() {
 
-		//Debug.Log ("hit");
+		Debug.Log ("hit");
 
-		//if (!isHit)
-			//whenToRestart = Time.time + restartTime;
+		if (!isHit)
+			whenToRestart = Time.time + restartTime;
 
 		isHit = true;
 	}
