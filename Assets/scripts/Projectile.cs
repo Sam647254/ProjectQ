@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour {
 	void Start() {
 		pauser = new RigidbodyPauser (rigidbody2D);
 		lifeTimer = lifeTime;
+		StatTracker.projectiles++;
 	}
 
 	void Update() {

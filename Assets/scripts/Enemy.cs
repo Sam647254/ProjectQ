@@ -44,12 +44,11 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (pauser.PauseUpdate ()) {
-
+			
 			if (!particleSystem.isPaused) {
 				particleSystem.Pause();
 				particleSystem.Clear();
 			}
-
 			return;
 		}
 		else if (particleSystem.isPaused)
@@ -133,6 +132,7 @@ public class Enemy : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.CompareTag("Player")) {
+			StatTracker.timesHit++;
 			Globals.modifySpeed(-speedPenalty);
 			Destroy(gameObject);
 			AudioController.StopAudio();
@@ -152,9 +152,11 @@ public class Enemy : MonoBehaviour {
 			}
 
 			if(enemyCollision.type == type && (isHit || enemyCollision.isHit)) {
+				StatTracker.collisions++;
 				Destroy (collision.gameObject);
 				Destroy (gameObject);
 				Globals.modifySpeed(speedBonusOnKill);
+				StatTracker.updateMaxSpeed();
 			}
 		}
 	}
@@ -173,18 +175,22 @@ public class Enemy : MonoBehaviour {
 		case 0:
 			type = EnemyType.ENEMY_WHITE;
 			spriteRenderer.color = Color.white;
+			StatTracker.white++;
 			break;
 		case 1:
 			type = EnemyType.ENEMY_BLUE;
 			spriteRenderer.color = Color.blue;
+			StatTracker.blue++;
 			break;
 		case 2:
 			type = EnemyType.ENEMY_RED;
 			spriteRenderer.color = Color.red;
+			StatTracker.red++;
 			break;
 		case 3:
 			type = EnemyType.ENEMY_GREEN;
 			spriteRenderer.color = Color.green;
+			StatTracker.green++;
 			break;
 		}
 	}
