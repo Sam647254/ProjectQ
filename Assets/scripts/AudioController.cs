@@ -13,6 +13,9 @@ public class AudioController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		AudioListener.pause = GameSystem.paused;
+
 		updateInterval -= Time.deltaTime;
 		if (updateInterval <= 0) {
 			StartAudio ();

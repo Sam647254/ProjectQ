@@ -12,14 +12,13 @@ public class Spawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Random.seed = 100;
 		interval = maxInterval;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (GameSystem.paused)
+		if (GameSystem.paused || GameSystem.state != GameSystem.GameState.STATE_GAME)
 			return;
 
 		interval -= Globals.gameSpeed * Time.deltaTime;

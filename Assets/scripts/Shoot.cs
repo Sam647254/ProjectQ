@@ -7,7 +7,7 @@ public class Shoot : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!GameSystem.paused && Input.GetButtonUp ("LeftClick")) {
+		if (!GameSystem.paused && Input.GetButtonUp ("Shoot")) {
 
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 

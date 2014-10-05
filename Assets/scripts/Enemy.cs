@@ -9,8 +9,7 @@ public class Enemy : MonoBehaviour {
 	public float maxRotation; //eg 1
 	public float smoothTurn; //eg 0.5f
 	public float wrapWait; //eg 2.5
-	float creationTime;
-	bool enteredScreen;
+	//public float restartTime;
 
 	//Velocity movement
 	//public int updatesPerMovementUpdate;
@@ -24,47 +23,34 @@ public class Enemy : MonoBehaviour {
 	};
 	public EnemyType type { get; private set; }
 	public bool isHit { get; set; }
-	int availableTypes;
+	
+	float creationTime;
+	bool enteredScreen;
+	//float whenToRestart;
 
 	Transform playerTransform;
 	RigidbodyPauser pauser;
-
-	//Velocity movement
-	//int movementUpdateTimer;
 
 	void Start() {
 		pauser = new RigidbodyPauser (rigidbody2D);
 
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
-		//Velocity movement
-		//movementUpdateTimer = updatesPerMovementUpdate;
 		enteredScreen = false;
 		creationTime = Time.time;
 
-		switch ((int)Random.Range (0, availableTypes)) {
-		case 0: SetType(EnemyType.ENEMY_WHITE); break;
-		case 1: SetType(EnemyType.ENEMY_BLUE); break;
-		case 2: SetType(EnemyType.ENEMY_RED); break;
-		case 3: SetType(EnemyType.ENEMY_GREEN); break;
-		}
+		chooseType ();
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (Globals.gameSpeed >= 3)
-			availableTypes = 3;
-		else
-			availableTypes = (int) Globals.gameSpeed;
-
 		if (pauser.PauseUpdate ())
 			return;
 		
 		if ((renderer as SpriteRenderer).isVisible)
 			enteredScreen = true;
-		
-					//Velocity movement
-		if (!isHit /*&& movementUpdateTimer-- <= 0*/) {
+
+		if (!isHit) {
 
 			// don't try to move towards the player if it doesn't exist for whatever reason
 			Vector3 targetPos = playerTransform ? targetPlayer() : new Vector3 (-100F, 0F, 0F);
@@ -91,16 +77,15 @@ public class Enemy : MonoBehaviour {
 			}
 			
 			transform.Rotate(new Vector3(0,0, relAngle));
-
-			//Velocity movement
-			//movementUpdateTimer = updatesPerMovementUpdate;
-
-			// Velocity movement
-			/*rigidbody2D.velocity = (Vector2.MoveTowards((Vector2) transform.position,
-			                                            (Vector2) targetPos,
-			                                            movementSpeed) - 
-									(Vector2) transform.position).normalized * movementSpeed;*/
 		}
+		/*else if (Time.time >= whenToRestart) {
+
+			Debug.Log("checking the time");
+
+			rigidbody2D.velocity = Vector2.zero;
+			rigidbody2D.angularVelocity = 0F;
+			isHit = false;
+		}*/
 	}
 
 	//account for screen wrapping
@@ -127,7 +112,17 @@ public class Enemy : MonoBehaviour {
 		}
 		return targetPos;
 	}
-	
+
+	public void Hit() {
+
+		//Debug.Log ("hit");
+
+		//if (!isHit)
+			//whenToRestart = Time.time + restartTime;
+
+		isHit = true;
+	}
+
 	void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.CompareTag("Player")) {
 			Globals.modifySpeed(-speedPenalty);
@@ -135,14 +130,17 @@ public class Enemy : MonoBehaviour {
 			AudioController.StopAudio();
 		}
 		else if (collision.gameObject.CompareTag("PlayerAttack")) {
-		    isHit = true;
+			Hit ();
 		}
-		else if (collision.gameObject.CompareTag("Enemy")) {
+	}
+	
+	void OnCollisionStay2D(Collision2D collision) {
+		if (collision.gameObject.CompareTag("Enemy")) {
 			Enemy enemyCollision = collision.gameObject.GetComponent<Enemy>();
 
 			// don't let unhit rockets of different types initiate a pile-up
 			if (isHit) {
-				enemyCollision.isHit = true;
+				enemyCollision.Hit();
 			}
 
 			if(enemyCollision.type == type && (isHit || enemyCollision.isHit)) {
@@ -153,22 +151,31 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
-	void SetType(EnemyType newType) {
-		type = newType;
-
+	void chooseType() {
 		SpriteRenderer spriteRenderer = renderer as SpriteRenderer;
+		int colourIndex;
+		int gameSpeedInt = Mathf.FloorToInt (Globals.gameSpeed);
 
-		switch (type) {
-		case EnemyType.ENEMY_WHITE:
+		if (gameSpeedInt < 4)
+			colourIndex = Random.Range(0, gameSpeedInt);
+		else
+			colourIndex = Random.Range(0, 4);
+
+		switch (colourIndex) {
+		case 0:
+			type = EnemyType.ENEMY_WHITE;
 			spriteRenderer.color = Color.white;
 			break;
-		case EnemyType.ENEMY_BLUE:
+		case 1:
+			type = EnemyType.ENEMY_BLUE;
 			spriteRenderer.color = Color.blue;
 			break;
-		case EnemyType.ENEMY_RED:
+		case 2:
+			type = EnemyType.ENEMY_RED;
 			spriteRenderer.color = Color.red;
 			break;
-		case EnemyType.ENEMY_GREEN:
+		case 3:
+			type = EnemyType.ENEMY_GREEN;
 			spriteRenderer.color = Color.green;
 			break;
 		}
