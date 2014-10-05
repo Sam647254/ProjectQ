@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviour {
 	public float speedPenalty;
 	public float speedBonusOnKill;
 	public float movementSpeed;
+	public float maxRotation; //eg 1
+	public float smoothTurn; //eg 0.5f
 
 	//Velocity movement
 	//public int updatesPerMovementUpdate;
@@ -43,10 +45,32 @@ public class Enemy : MonoBehaviour {
 	void Update () {
 		// don't try to move towards the player if it doesn't exist for whatever reason
 		Vector3 targetPos = playerTransform ? playerTransform.position : new Vector3 (-100F, 0F, 0F);
-
+		
 					//Velocity movement
 		if (!isHit /*&& movementUpdateTimer-- <= 0*/) {
+
 			transform.position = Vector3.MoveTowards (transform.position, targetPos, movementSpeed);
+
+			//rotation
+			//get angle between this object and player, and subtract current angle, normalize
+			float absAngle = Mathf.Atan((targetPos.y-transform.position.y)/(targetPos.x-transform.position.x)) * 180/Mathf.PI;
+			if (targetPos.x > transform.position.x)
+				absAngle += 180;
+			float relAngle = absAngle - transform.eulerAngles.z;
+			while (relAngle < -180)
+				relAngle += 360;
+			while (relAngle > 180)
+				relAngle -= 360;
+
+			//smooth out rotation - turn slower when we're almost there
+			relAngle *= smoothTurn;
+
+			//prevent from rotating more than the maxangle each update
+			if (Mathf.Abs (relAngle) > maxRotation) {
+				relAngle = Mathf.Sign (relAngle) * maxRotation;
+			}
+
+			transform.Rotate(new Vector3(0,0, relAngle));
 
 			//Velocity movement
 			//movementUpdateTimer = updatesPerMovementUpdate;
