@@ -63,10 +63,10 @@ public class Enemy : MonoBehaviour {
 				relAngle -= 360;
 
 			//smooth out rotation - turn slower when we're almost there
-			relAngle *= smoothTurn;
+			relAngle *= smoothTurn * Time.deltaTime;
 
 			//prevent from rotating more than the maxangle each update
-			if (Mathf.Abs (relAngle) > maxRotation) {
+			if (Mathf.Abs (relAngle) > maxRotation * Time.deltaTime) {
 				relAngle = Mathf.Sign (relAngle) * maxRotation;
 			}
 
