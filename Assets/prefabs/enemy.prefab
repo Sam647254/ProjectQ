@@ -69,9 +69,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9582c7e3039425ea8d91e83c744b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedPenalty: .150000006
+  speedPenalty: .5
   speedBonusOnKill: .150000006
   movementSpeed: .100000001
+  maxRotation: 0
+  smoothTurn: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

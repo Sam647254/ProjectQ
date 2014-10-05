@@ -94,6 +94,7 @@ public class Enemy : MonoBehaviour {
 		if (collision.gameObject.CompareTag("Player")) {
 			Globals.modifySpeed(-speedPenalty);
 			Destroy(gameObject);
+			AudioController.StopAudio();
 		}
 		else if (collision.gameObject.CompareTag("PlayerAttack")) {
 		    isHit = true;
