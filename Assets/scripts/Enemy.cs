@@ -8,6 +8,9 @@ public class Enemy : MonoBehaviour {
 	public float movementSpeed;
 	public float maxRotation; //eg 1
 	public float smoothTurn; //eg 0.5f
+	public float wrapWait; //eg 2.5
+	float creationTime;
+	bool enteredScreen;
 
 	//Velocity movement
 	//public int updatesPerMovementUpdate;
@@ -36,6 +39,8 @@ public class Enemy : MonoBehaviour {
 
 		//Velocity movement
 		//movementUpdateTimer = updatesPerMovementUpdate;
+		enteredScreen = false;
+		creationTime = Time.time;
 
 		switch ((int)Random.Range (0, availableTypes)) {
 		case 0: SetType(EnemyType.ENEMY_WHITE); break;
@@ -54,12 +59,15 @@ public class Enemy : MonoBehaviour {
 
 		if (pauser.PauseUpdate ())
 			return;
-
+		
+		if ((renderer as SpriteRenderer).isVisible)
+			enteredScreen = true;
+		
 					//Velocity movement
 		if (!isHit /*&& movementUpdateTimer-- <= 0*/) {
 
 			// don't try to move towards the player if it doesn't exist for whatever reason
-			Vector3 targetPos = playerTransform ? playerTransform.position : new Vector3 (-100F, 0F, 0F);
+			Vector3 targetPos = playerTransform ? targetPlayer() : new Vector3 (-100F, 0F, 0F);
 			transform.position = Vector3.MoveTowards (transform.position, targetPos, movementSpeed);
 
 			//rotation
@@ -95,6 +103,31 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
+	//account for screen wrapping
+	//check all combinations of wrapping (and not wrapping) to find fastest path to player
+	Vector3 targetPlayer() {
+		//Debug.Log ("current: " + Time.time + ", wait: " + (creationTime+wrapWait));
+		Vector3 targetPos = playerTransform.position;
+
+		//don't let seeking wrap before enemy enters screen
+		if (!enteredScreen || Time.time < creationTime + wrapWait)
+			return targetPos;
+		float bestDistance = (targetPos - transform.position).magnitude;
+		for (int ix = -1; ix <= 1; ix++) {
+			for (int iy = -1; iy <= 1; iy++) {
+				if (ix != 0 || iy != 0) {
+					Vector3 tmpPos = targetPos + new Vector3(ix*Globals.camWidth(), iy*Globals.camHeight(), 0);
+					float tmpDistance = (tmpPos - transform.position).magnitude;
+					if (tmpDistance < bestDistance) {
+						bestDistance = tmpDistance;
+						targetPos = tmpPos;
+					}
+				}
+			}
+		}
+		return targetPos;
+	}
+	
 	void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.CompareTag("Player")) {
 			Globals.modifySpeed(-speedPenalty);
