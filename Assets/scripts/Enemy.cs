@@ -43,8 +43,17 @@ public class Enemy : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (pauser.PauseUpdate ())
+		if (pauser.PauseUpdate ()) {
+
+			if (!particleSystem.isPaused) {
+				particleSystem.Pause();
+				particleSystem.Clear();
+			}
+
 			return;
+		}
+		else if (particleSystem.isPaused)
+			particleSystem.Play();
 		
 		if ((renderer as SpriteRenderer).isVisible)
 			enteredScreen = true;

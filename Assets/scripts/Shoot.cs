@@ -4,10 +4,11 @@ using System.Collections;
 public class Shoot : MonoBehaviour {
 
 	public Projectile projectileType;
+	public string button;
 	
 	// Update is called once per frame
 	void Update () {
-		if (!GameSystem.paused && Input.GetButtonUp ("Shoot")) {
+		if (!GameSystem.paused && Input.GetButtonUp (button)) {
 
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
