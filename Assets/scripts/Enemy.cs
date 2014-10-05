@@ -144,11 +144,8 @@ public class Enemy : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.CompareTag("Player")) {
-<<<<<<< HEAD
 			StatTracker.timesHit++;
-=======
 			Explode(collision.contacts[0]);
->>>>>>> FETCH_HEAD
 			Globals.modifySpeed(-speedPenalty);
 			AudioController.StopAudio();
 			Destroy(gameObject);
