@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour {
 	};
 	public EnemyType type { get; private set; }
 	public bool isHit { get; set; }
+	int availableTypes;
 
 	Transform playerTransform;
 	RigidbodyPauser pauser;
@@ -36,7 +37,7 @@ public class Enemy : MonoBehaviour {
 		//Velocity movement
 		//movementUpdateTimer = updatesPerMovementUpdate;
 
-		switch (Random.Range (0, (int)Mathf.Floor(Globals.gameSpeed))) {
+		switch ((int)Random.Range (0, availableTypes)) {
 		case 0: SetType(EnemyType.ENEMY_WHITE); break;
 		case 1: SetType(EnemyType.ENEMY_BLUE); break;
 		case 2: SetType(EnemyType.ENEMY_RED); break;
@@ -46,6 +47,10 @@ public class Enemy : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (Globals.gameSpeed >= 3)
+			availableTypes = 3;
+		else
+			availableTypes = (int) Globals.gameSpeed;
 
 		if (pauser.PauseUpdate ())
 			return;
