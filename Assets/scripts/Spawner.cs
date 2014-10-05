@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 
 		if (GameSystem.paused || GameSystem.state != GameSystem.GameState.STATE_GAME)
 			return;

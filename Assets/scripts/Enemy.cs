@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour {
 	public float smoothTurn; //eg 0.5f
 	public float wrapWait; //eg 2.5
 	public float restartTime;
+	public GameObject explosion;
 
 	public enum EnemyType {
 		ENEMY_NULL,
@@ -24,17 +25,17 @@ public class Enemy : MonoBehaviour {
 	float creationTime;
 	bool enteredScreen;
 	float whenToRestart;
+	bool exploded;
 
 	Transform playerTransform;
 	RigidbodyPauser pauser;
-	ParticleSystem particleSystem;
 
 	void Start() {
-		particleSystem = gameObject.GetComponent<ParticleSystem> ();
 		pauser = new RigidbodyPauser (rigidbody2D);
 
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
+		exploded = false;
 		enteredScreen = false;
 		creationTime = Time.time;
 
@@ -61,10 +62,10 @@ public class Enemy : MonoBehaviour {
 
 			// don't try to move towards the player if it doesn't exist for whatever reason
 			Vector3 targetPos = playerTransform ? targetPlayer() : new Vector3 (-100F, 0F, 0F);
-			transform.position = Vector3.MoveTowards (transform.position, targetPos, movementSpeed);
-			/* rigidbody2D.velocity = (Vector3.MoveTowards(transform.position, targetPos, movementSpeed)
+			//transform.position = Vector3.MoveTowards (transform.position, targetPos, movementSpeed);
+			rigidbody2D.velocity = (Vector3.MoveTowards(transform.position, targetPos, movementSpeed)
 			                        - transform.position).normalized
-								   * movementSpeed; */
+								   * movementSpeed;
 
 			//rotation
 			//get angle between this object and player, and subtract current angle, normalize
@@ -130,12 +131,27 @@ public class Enemy : MonoBehaviour {
 		particleSystem.enableEmission = false;
 	}
 
+	// create an explosion upon collision with player
+	public void Explode(ContactPoint2D point) {
+		// don't explode twice (for whatever reason)
+		if (exploded)
+			return;
+
+		exploded = true;
+
+		Instantiate (explosion, point.point, Quaternion.identity);
+	}
+
 	void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.CompareTag("Player")) {
+<<<<<<< HEAD
 			StatTracker.timesHit++;
+=======
+			Explode(collision.contacts[0]);
+>>>>>>> FETCH_HEAD
 			Globals.modifySpeed(-speedPenalty);
-			Destroy(gameObject);
 			AudioController.StopAudio();
+			Destroy(gameObject);
 		}
 		else if (collision.gameObject.CompareTag("PlayerAttack")) {
 			Hit ();
