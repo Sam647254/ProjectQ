@@ -4,11 +4,9 @@ using System.Collections;
 public class GameOverSpawner : Spawner {
 	
 	// Update is called once per frame
-	void Update () {
+	public override void Update () {
 		if (Globals.score > Globals.finishLine || (Input.GetKey("l") && Input.GetKey("="))) {
 			base.Update ();
-
 		}
-
 	}
 }
