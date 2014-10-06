@@ -3,10 +3,10 @@ using System.Collections;
 
 public class Globals : MonoBehaviour {
 	
-	public static float gameSpeed = 1.0f;
+	public static float gameSpeed = 2.0f;
 	public static float score = 0.0f;
 	public static float finishLine = 100;
-	static float minSpeed = 0.5f;
+	static float minSpeed = 1.5f;
 
 	public static void modifySpeed(float offset) {
 		gameSpeed += offset;

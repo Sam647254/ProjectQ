@@ -87,6 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoomFactor: 1
+  initialZoom: 3
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -673,6 +673,7 @@ GameObject:
   - 114: {fileID: 980210464}
   - 114: {fileID: 980210463}
   - 114: {fileID: 980210459}
+  - 114: {fileID: 980210462}
   m_Layer: 0
   m_Name: GameSystem
   m_TagString: Untagged
@@ -737,6 +738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoomFactor: 1
+  initialZoom: 3
 --- !u!4 &980210461
 Transform:
   m_ObjectHideFlags: 0
@@ -749,6 +751,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &980210462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 980210456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcb2b99e05f6043a387dcc49832921bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &980210463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1162,7 +1175,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: -500
-  m_Sprite: {fileID: 21300000, guid: d080c61f3545efc4cbe7ece13cfddf8c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bdfe14f7257384ae4b21d05dcc9ff4aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1220322377
 Transform:
@@ -1316,7 +1329,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: -500
-  m_Sprite: {fileID: 21300000, guid: d080c61f3545efc4cbe7ece13cfddf8c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bdfe14f7257384ae4b21d05dcc9ff4aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1744088779
 Transform:
